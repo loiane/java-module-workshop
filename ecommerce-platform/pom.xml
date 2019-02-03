@@ -8,10 +8,11 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>ecommerce-shared</module>
         <module>order-service</module>
         <module>catalog-service</module>
         <module>basket-service</module>
+        <module>stock-service</module>
         <module>ecommerce-api</module>
-        <module>ecommerce-shared</module>
     </modules>
 </project>

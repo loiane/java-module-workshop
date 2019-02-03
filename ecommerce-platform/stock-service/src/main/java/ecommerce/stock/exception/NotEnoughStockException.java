@@ -1,4 +1,4 @@
-package ecommerce.catalog.exception;
+package ecommerce.stock.exception;
 
 import static java.lang.String.format;
 

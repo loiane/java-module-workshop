@@ -1,10 +1,8 @@
-package ecommerce.catalog.core;
+package ecommerce.stock.core;
 
-import ecommerce.catalog.exception.NotEnoughStockException;
 import ecommerce.shared.model.ItemWithCount;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 

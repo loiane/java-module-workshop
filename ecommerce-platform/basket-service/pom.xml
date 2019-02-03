@@ -1,31 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-        <modelVersion>4.0.0</modelVersion>
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
         <groupId>jugistanbul</groupId>
-        <artifactId>basket-service</artifactId>
+        <artifactId>ecommerce-platform</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <packaging>jar</packaging>
-        <dependencies>
-                <dependency>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                        <version>4.8.2</version>
-                </dependency>
-            <dependency>
-                <groupId>jeventbus</groupId>
-                <artifactId>jeventbus</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>jugistanbul</groupId>
-                <artifactId>ecommerce-shared</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-        <build>
-            <plugins>
-
+    </parent>
+    <artifactId>basket-service</artifactId>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>basket-service</finalName>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -35,6 +27,6 @@
                     <target>1.9</target>
                 </configuration>
             </plugin>
-            </plugins>
-        </build>
+        </plugins>
+    </build>
 </project>
