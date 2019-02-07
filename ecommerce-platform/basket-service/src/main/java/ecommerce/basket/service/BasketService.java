@@ -4,12 +4,23 @@ import ecommerce.basket.core.Basket;
 import ecommerce.basket.core.Baskets;
 import ecommerce.basket.core.BasketItem;
 
+import jeventbus.service.EventService;
+import jeventbus.shared.EventSource;
+import jeventbus.shared.Parameter;
+
 import java.util.Optional;
 
 
-public class BasketService {
+public class BasketService implements OrderListener {
 
     private final Baskets baskets = new Baskets();
+
+    private final EventService eventService;
+
+    public BasketService(EventService eventService) {
+
+        this.eventService = eventService;
+    }
 
     public Optional<Basket> get(Integer buyerId) {
 
@@ -20,6 +31,9 @@ public class BasketService {
 
         Basket basket = baskets.create(buyerId);
 
+        eventService.fire(BASKET_CREATED,
+                          Parameter.by("buyerId", buyerId));
+
         System.out.println(String.format("BASKET CREATED : {\"buyerId\":%d}",
                                          buyerId));
         return basket;
@@ -29,10 +43,16 @@ public class BasketService {
 
         Basket clearedBasket = baskets.clear(buyerId);
 
+        eventService.fire(BASKET_CLEARED,
+                          Parameter.by("buyerId", buyerId),
+                          Parameter.by("basketId", clearedBasket.getId()),
+                          Parameter.by("totalPrice", clearedBasket.getTotalPrice()));
+
         System.out.println(String.format("BASKET CLEARED : {\"buyerId\":%d, \"basketId\":%d, \"totalPrice\":%.2f}",
                                          buyerId,
                                          clearedBasket.getId(),
                                          clearedBasket.getTotalPrice()));
+
     }
 
     public Integer addItem(Integer buyerId, Integer productId, Double unitPrice, Integer count) {
@@ -55,6 +75,11 @@ public class BasketService {
         if (basket.isPresent()) {
             Integer latestCount = basket.get().dec(productId, count);
 
+            eventService.fire(BASKET_ITEM_COUNT_DECREASED,
+                              Parameter.by("buyerId", buyerId),
+                              Parameter.by("productId", productId),
+                              Parameter.by("count", count));
+
             System.out.println(String.format("BASKET DEC ITEM COUNT : {\"buyerId\":%d, \"productId\":%d, \"countToDec\":%d, \"latestCount\":%d }",
                                              buyerId, productId, count, latestCount));
             return latestCount;
@@ -72,6 +97,16 @@ public class BasketService {
 
         basket.ifPresent(b -> b.remove(productId));
 
+        eventService.fire(BASKET_ITEM_REMOVED,
+                          Parameter.by("buyerId", buyerId),
+                          Parameter.by("productId", productId));
+
         System.out.println(String.format("BASKET REMOVE ITEM : {\"buyerId\":%d, \"productId\":%d }", buyerId, productId));
+    }
+
+    @Override
+    public void onOrder(EventSource source) {
+        Integer buyerId = (Integer) source.get("buyerId");
+        clear(buyerId);
     }
 }

@@ -9,6 +9,9 @@ import ecommerce.stock.service.StockService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jeventbus.service.EventService;
+import jeventbus.shared.Parameter;
+
 public class OrderService {
 
     private final StockService stockService;
@@ -23,8 +26,10 @@ public class OrderService {
 
         List<ItemWithCount> items = order.getOrderItems().stream().map(OrderItem::getItem).collect(Collectors.toList());
 
-        basketService.clear(order.getBuyerId());
-        stockService.checkout(items);
+        eventService.fire(ECommerceEventType.ORDER,
+                          Parameter.by("buyerId", order.getBuyerId()),
+                          Parameter.by("basketId", order.getBasketId()),
+                          Parameter.by("items", order.getOrderItems().stream().map(OrderItem::getItem).collect(Collectors.toList())));
 
         String itemsStr = items.stream().map(i->i.toString()).collect(Collectors.joining(","));
         System.out.println(String.format("ORDER EXECUTED : {\"buyerId\":%d, \"basketId\":%d, \"items\":[%s]}",

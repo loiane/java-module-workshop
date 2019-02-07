@@ -13,12 +13,24 @@ import java.util.Optional;
 public class Application {
 
     public static void main(String[] args) {
-        BasketService basketService = new BasketService();
-        CatalogService catalogService = new CatalogService();
-        StockService stockService = new StockService();
-        OrderService orderService = new OrderService(stockService, basketService);
 
+        EventService eventService = new EventService();
 
+        BasketService basketService = new BasketService(eventService);
+        CatalogService catalogService = new CatalogService(eventService);
+        StockService stockService = new StockService(eventService);
+        OrderService orderService = new OrderService(seventService);
+
+        eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_CLEARED).add(logger));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_CREATED));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_ITEM_ADDED));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_ITEM_REMOVED));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_ITEM_COUNT_DECREASED));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.PRODUCT_ADDED).add(logger));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.PRODUCT_DELETED));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.STOCK_ADDED));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.STOCK_CHECKOUTED).add(logger));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.ORDER).add(basketService).add(stockService).add(logger));
 
         Product bossKulaklik = catalogService.add("Boss Kulaklık", 500D);
         Product appleKlavye = catalogService.add("Apple Klavye", 200D);
