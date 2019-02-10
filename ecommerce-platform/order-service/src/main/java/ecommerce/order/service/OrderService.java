@@ -1,10 +1,9 @@
 package ecommerce.order.service;
 
-import ecommerce.basket.service.BasketService;
 import ecommerce.order.core.Order;
 import ecommerce.order.core.OrderItem;
+import ecommerce.shared.event.ECommerceEventType;
 import ecommerce.shared.model.ItemWithCount;
-import ecommerce.stock.service.StockService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,12 +13,11 @@ import jeventbus.shared.Parameter;
 
 public class OrderService {
 
-    private final StockService stockService;
-    private final BasketService basketService;
+    private final EventService eventService;
 
-    public OrderService(StockService stockService, BasketService basketService) {
-        this.stockService = stockService;
-        this.basketService = basketService;
+    public OrderService(EventService eventService) {
+
+        this.eventService = eventService;
     }
 
     public void order(Order order) {

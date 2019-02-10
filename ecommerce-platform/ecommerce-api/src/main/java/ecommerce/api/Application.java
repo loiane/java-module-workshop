@@ -5,8 +5,12 @@ import ecommerce.basket.service.BasketService;
 import ecommerce.catalog.service.CatalogService;
 import ecommerce.order.core.Order;
 import ecommerce.order.service.OrderService;
+import ecommerce.shared.event.ECommerceEventType;
 import ecommerce.shared.model.Product;
 import ecommerce.stock.service.StockService;
+import jeventbus.service.EventBuilder;
+import jeventbus.service.EventService;
+import jeventbus.shared.EventSource;
 
 import java.util.Optional;
 
@@ -19,18 +23,18 @@ public class Application {
         BasketService basketService = new BasketService(eventService);
         CatalogService catalogService = new CatalogService(eventService);
         StockService stockService = new StockService(eventService);
-        OrderService orderService = new OrderService(seventService);
+        OrderService orderService = new OrderService(eventService);
 
-        eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_CLEARED).add(logger));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_CLEARED));
         eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_CREATED));
         eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_ITEM_ADDED));
         eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_ITEM_REMOVED));
         eventService.register(EventBuilder.aNew(ECommerceEventType.BASKET_ITEM_COUNT_DECREASED));
-        eventService.register(EventBuilder.aNew(ECommerceEventType.PRODUCT_ADDED).add(logger));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.PRODUCT_ADDED));
         eventService.register(EventBuilder.aNew(ECommerceEventType.PRODUCT_DELETED));
         eventService.register(EventBuilder.aNew(ECommerceEventType.STOCK_ADDED));
-        eventService.register(EventBuilder.aNew(ECommerceEventType.STOCK_CHECKOUTED).add(logger));
-        eventService.register(EventBuilder.aNew(ECommerceEventType.ORDER).add(basketService).add(stockService).add(logger));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.STOCK_CHECKOUTED));
+        eventService.register(EventBuilder.aNew(ECommerceEventType.ORDER).add(basketService).add(stockService));
 
         Product bossKulaklik = catalogService.add("Boss Kulaklık", 500D);
         Product appleKlavye = catalogService.add("Apple Klavye", 200D);

@@ -2,8 +2,9 @@ package ecommerce.stock.service;
 
 import ecommerce.shared.model.ItemWithCount;
 import ecommerce.stock.core.Stock;
+import jeventbus.service.EventService;
+import jeventbus.shared.EventListener;
 import jeventbus.shared.EventSource;
-import jeventbus.shared.Parameter;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import static ecommerce.shared.event.ECommerceEventType.STOCK_ADDED;
 import static ecommerce.shared.event.ECommerceEventType.STOCK_CHECKOUTED;
 import static jeventbus.shared.Parameter.by;
 
-public class StockService implements OrderListener  {
+public class StockService implements EventListener {
 
     private final Stock stock = new Stock();
 
@@ -35,7 +36,7 @@ public class StockService implements OrderListener  {
     public void checkout(ItemWithCount item) {
         Integer productId = item.getProductId();
         Integer countToCheckout = item.getCount();
-        stock.checkout(productId, countToCheckout);
+        Integer currentCount = stock.checkout(productId, countToCheckout);
 
         eventService.fire(STOCK_CHECKOUTED,
                           by("productId", productId),
@@ -51,5 +52,10 @@ public class StockService implements OrderListener  {
         for (ItemWithCount item : items) {
             checkout(item);
         }
+    }
+
+    private void onOrder(EventSource source) {
+        List<ItemWithCount> items = (List<ItemWithCount>) source.get("items");
+        checkout(items);
     }
 }

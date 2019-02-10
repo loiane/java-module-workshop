@@ -20,13 +20,13 @@ public class Stock {
         return productCounts.getOrDefault(productId, new AtomicInteger(0)).get();
     }
 
-    public void checkout(Integer productId, Integer countToCheckout) {
+    public Integer checkout(Integer productId, Integer countToCheckout) {
         AtomicInteger countInStock = productCounts.getOrDefault(productId, new AtomicInteger(0));
 
 //        if (countToCheckout > countInStock.get()) {
 //            throw new NotEnoughStockException(productId, countToCheckout, countInStock.get());
 //        }
 
-        countInStock.addAndGet(-1 * countToCheckout);
+        return countInStock.addAndGet(-1 * countToCheckout);
     }
 }

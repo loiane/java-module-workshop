@@ -1,17 +1,18 @@
 package ecommerce.basket.service;
 
 import ecommerce.basket.core.Basket;
-import ecommerce.basket.core.Baskets;
 import ecommerce.basket.core.BasketItem;
-
+import ecommerce.basket.core.Baskets;
 import jeventbus.service.EventService;
+import jeventbus.shared.EventListener;
 import jeventbus.shared.EventSource;
 import jeventbus.shared.Parameter;
 
 import java.util.Optional;
 
+import static ecommerce.shared.event.ECommerceEventType.*;
 
-public class BasketService implements OrderListener {
+public class BasketService implements EventListener {
 
     private final Baskets baskets = new Baskets();
 
@@ -104,8 +105,7 @@ public class BasketService implements OrderListener {
         System.out.println(String.format("BASKET REMOVE ITEM : {\"buyerId\":%d, \"productId\":%d }", buyerId, productId));
     }
 
-    @Override
-    public void onOrder(EventSource source) {
+    private void onOrder(EventSource source) {
         Integer buyerId = (Integer) source.get("buyerId");
         clear(buyerId);
     }

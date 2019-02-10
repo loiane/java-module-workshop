@@ -25,7 +25,7 @@ recreateFolder() {
 
 recreateFolder "out"
 recreateFolder "lib"
-recreateFolder "modules"
+#recreateFolder "modules"
 
 compile() {
     moduleName="$1"
