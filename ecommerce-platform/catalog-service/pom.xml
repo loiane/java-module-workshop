@@ -19,6 +19,12 @@
             <artifactId>ecommerce-shared</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>jeventbus</groupId>
+            <artifactId>jeventbus</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>catalog-service</finalName>

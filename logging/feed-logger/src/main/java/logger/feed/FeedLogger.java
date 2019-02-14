@@ -1,6 +1,6 @@
 package logger.feed;
 
-import logger.core.LogMessage;
+import logger.shared.LogMessage;
 import logger.service.LoggerService;
 
 public class FeedLogger implements LoggerService {

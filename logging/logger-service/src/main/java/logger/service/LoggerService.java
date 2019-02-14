@@ -1,6 +1,6 @@
 package logger.service;
 
-import logger.core.LogMessage;
+import logger.shared.LogMessage;
 
 public interface LoggerService {
 

@@ -43,9 +43,6 @@ public class StockService implements EventListener {
                           by("countToCheckout", countToCheckout),
                           by("countAfterCheckout", currentCount));
 
-        System.out.println(
-                String.format("PRODUCT CHECKOUTED from STOCK : {\"productId\":%d, \"countCheckouted\":%d, \"countAfterCheckout\":%d}",
-                              productId, countToCheckout, stock.getCount(productId)));
     }
 
     public void checkout(List<ItemWithCount> items) {

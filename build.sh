@@ -5,14 +5,18 @@ YELLOW='\033[1;33m'
 PURPLE='\033[1;35m'
 NC='\033[0m' # No Color
 
-shared=('ecommerce-shared' 'ecommerce-platform' 'named') 
+logging=('logger-service' 'logging' 'named')
+feedlogger=('feed-logger' 'logging' 'named')
+consolelogger=('console-logger' 'logging' 'named')
+jeventbus=('jeventbus' '.' 'named')
+shared=('ecommerce-shared' 'ecommerce-platform' 'named')
 basket=('basket-service' 'ecommerce-platform' 'named')
 stock=('stock-service' 'ecommerce-platform' 'named')
 catalog=('catalog-service' 'ecommerce-platform' 'named')
 order=('order-service' 'ecommerce-platform' 'named')
 api=('ecommerce-api' 'ecommerce-platform' 'named')
 
-modules=(shared basket stock catalog order api)
+modules=(logging feedlogger consolelogger jeventbus shared basket stock catalog order api)
 
 recreateFolder() {
     folder="$1"

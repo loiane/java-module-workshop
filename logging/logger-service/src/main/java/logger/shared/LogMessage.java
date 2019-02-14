@@ -1,4 +1,4 @@
-package logger.core;
+package logger.shared;
 
 public class LogMessage {
 

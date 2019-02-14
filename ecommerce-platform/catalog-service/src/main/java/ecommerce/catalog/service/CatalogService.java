@@ -33,8 +33,6 @@ public class CatalogService {
 
         eventService.fire(PRODUCT_DELETED, Parameter.by("productId", productId));
 
-        System.out.println(String.format("CATALOG DELETED : {\"productId\":%d}",
-                                         productId));
     }
 
     public Optional<Product> getProduct(Integer productId) {
@@ -49,8 +47,6 @@ public class CatalogService {
 
         eventService.fire(PRODUCT_ADDED, Parameter.by("product", product.toString()));
 
-        System.out.println(String.format("CATALOG ADDED : {\"product\":%s}",
-                                         product.toString()));
         return product;
     }
 }

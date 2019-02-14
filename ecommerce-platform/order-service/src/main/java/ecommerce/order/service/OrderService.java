@@ -29,10 +29,5 @@ public class OrderService {
                           Parameter.by("basketId", order.getBasketId()),
                           Parameter.by("items", order.getOrderItems().stream().map(OrderItem::getItem).collect(Collectors.toList())));
 
-        String itemsStr = items.stream().map(i->i.toString()).collect(Collectors.joining(","));
-        System.out.println(String.format("ORDER EXECUTED : {\"buyerId\":%d, \"basketId\":%d, \"items\":[%s]}",
-                          order.getBuyerId(),
-                          order.getBasketId(),
-                                         itemsStr));
     }
 }
