@@ -6,4 +6,6 @@ module ecommerce.api {
     requires stock.service;
     requires jeventbus;
     opens ecommerce.api to jeventbus;
+    requires logger.service;
+    uses logger.service.LoggerService;
 }
