@@ -8,10 +8,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>order-service</module>
-        <module>catalog-service</module>
-        <module>basket-service</module>
         <module>ecommerce-api</module>
-        <module>ecommerce-shared</module>
     </modules>
 </project>

@@ -1,10 +1,10 @@
 package ecommerce.api;
 
-import ecommerce.basket.core.Basket;
-import ecommerce.basket.core.BasketItem;
-import ecommerce.order.core.Order;
-import ecommerce.order.core.OrderItem;
-import ecommerce.shared.model.ItemWithCount;
+import ecommerce.api.model.Basket;
+import ecommerce.api.model.BasketItem;
+import ecommerce.api.model.Order;
+import ecommerce.api.model.OrderItem;
+import ecommerce.api.model.ItemWithCount;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +13,7 @@ import java.util.stream.Collectors;
 public class BasketOrderConverter {
 
     public static OrderItem convert(BasketItem basketItem) {
-        ItemWithCount item = new ItemWithCount(basketItem.getProductId(), basketItem.getUnitPrice(), basketItem.getCount());
-        OrderItem orderItem = new OrderItem(item);
+        OrderItem orderItem = new OrderItem(basketItem.getProduct(), basketItem.getCount());
         return orderItem;
     }
 
