@@ -5,12 +5,12 @@ YELLOW='\033[1;33m'
 PURPLE='\033[1;35m'
 NC='\033[0m' # No Color
 
-shared=('ecommerce-shared' 'ecommerce-platform' 'named') 
-basket=('basket-service' 'ecommerce-platform' 'named')
-stock=('stock-service' 'ecommerce-platform' 'named')
-catalog=('catalog-service' 'ecommerce-platform' 'named')
-order=('order-service' 'ecommerce-platform' 'named')
-api=('ecommerce-api' 'ecommerce-platform' 'named')
+shared=('ecommerce-shared' 'ecommerce-platform' 'unnamed') 
+basket=('basket-service' 'ecommerce-platform' 'unnamed')
+stock=('stock-service' 'ecommerce-platform' 'unnamed')
+catalog=('catalog-service' 'ecommerce-platform' 'unnamed')
+order=('order-service' 'ecommerce-platform' 'unnamed')
+api=('ecommerce-api' 'ecommerce-platform' 'unnamed')
 
 modules=(shared basket stock catalog order api)
 
