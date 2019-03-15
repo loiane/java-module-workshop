@@ -3,12 +3,12 @@ ECHO OFF
 set JAVAHOME= "C:\Program Files\Java\jdk-11.0.2"
 
 SETLOCAL
-CALL :Build ecommerce-shared , ecommerce-platform , named
-CALL :Build basket-service , ecommerce-platform , named
-CALL :Build stock-service , ecommerce-platform , named
-CALL :Build catalog-service , ecommerce-platform , named
-CALL :Build order-service , ecommerce-platform , named
-CALL :Build ecommerce-api , ecommerce-platform , named
+CALL :Build ecommerce-shared , ecommerce-platform , unnamed
+CALL :Build basket-service , ecommerce-platform , unnamed
+CALL :Build stock-service , ecommerce-platform , unnamed
+CALL :Build catalog-service , ecommerce-platform , unnamed
+CALL :Build order-service , ecommerce-platform , unnamed
+CALL :Build ecommerce-api , ecommerce-platform , unnamed
 
 EXIT /B %ERRORLEVEL%
 
