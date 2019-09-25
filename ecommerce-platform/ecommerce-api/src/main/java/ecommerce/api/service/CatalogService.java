@@ -6,6 +6,8 @@ import ecommerce.api.model.Product;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.lang.String.format;
+
 public class CatalogService {
 
     private static final AtomicInteger idGenerator = new AtomicInteger(0);
@@ -16,8 +18,8 @@ public class CatalogService {
 
         catalog.delete(productId);
 
-        System.out.println(String.format("CATALOG DELETED : {\"productId\":%d}",
-                                         productId));
+        System.out.println(format("CATALOG DELETED : {\"productId\":%d}",
+                                  productId));
     }
 
     public Optional<Product> getProduct(Integer productId) {
@@ -28,9 +30,10 @@ public class CatalogService {
     public Product add(String productName, double unitPrice) {
 
         Product product = new Product(idGenerator.getAndAdd(1), productName, unitPrice);
+
         catalog.add(product);
 
-        System.out.println(String.format("CATALOG ADDED : {\"product\":%s}",
+        System.out.println(format("CATALOG ADDED : {\"product\":%s}",
                                          product.toString()));
         return product;
     }

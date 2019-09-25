@@ -1,13 +1,19 @@
 package ecommerce.api.service;
 
-import ecommerce.api.model.ItemWithCount;
 import ecommerce.api.model.Order;
 import ecommerce.api.model.OrderItem;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
 
 public class OrderService {
+
+    private static final String MESSAGE = "ORDER EXECUTED : "
+                                        + "{\"buyerId\":%d,"
+                                        + " \"basketId\":%d,"
+                                        + " \"items\":[%s]}";
 
     private final StockService stockService;
     private final BasketService basketService;
@@ -21,13 +27,18 @@ public class OrderService {
 
         List<OrderItem> items = order.getOrderItems();
 
+        // IMPORTANT PART IS HERE
         basketService.clear(order.getBuyerId());
         stockService.checkout(items);
+        // -----------------------
 
-        String itemsStr = items.stream().map(i->i.toString()).collect(Collectors.joining(","));
-        System.out.println(String.format("ORDER EXECUTED : {\"buyerId\":%d, \"basketId\":%d, \"items\":[%s]}",
-                          order.getBuyerId(),
-                          order.getBasketId(),
-                                         itemsStr));
+        String itemsStr = items.stream()
+                               .map(i->i.toString())
+                               .collect(joining(","));
+
+        System.out.println(format(MESSAGE,
+                                  order.getBuyerId(),
+                                  order.getBasketId(),
+                                  itemsStr));
     }
 }
