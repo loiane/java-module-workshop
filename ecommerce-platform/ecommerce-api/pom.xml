@@ -40,12 +40,6 @@
         </dependency>
         <dependency>
             <groupId>jugistanbul</groupId>
-            <artifactId>logger-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>jugistanbul</groupId>
             <artifactId>stock-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
