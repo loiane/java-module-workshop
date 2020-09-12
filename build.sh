@@ -60,7 +60,11 @@ compile() {
 
 createJar() {
     moduleName=$1
-    cd out/$moduleName && jar --create --file ../../lib/$moduleName.jar -c . && cd ../..
+    if [ -f out/$moduleName/META-INF/MANIFEST.MF ]; then
+	cd out/$moduleName && jar --create --file ../../lib/$moduleName.jar --manifest META-INF/MANIFEST.MF -c . && cd ../..
+    else 
+	cd out/$moduleName && jar --create --file ../../lib/$moduleName.jar  -c . && cd ../..
+    fi
     echo -e "${YELLOW}JAR     ::${NC} Module $moduleName packaged to ${GREEN}lib/$moduleName.jar${NC}"
 }
 
