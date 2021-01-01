@@ -7,35 +7,38 @@ import jeventbus.service.EventBuilder;
 import jeventbus.service.EventService;
 import jeventbus.shared.Parameter;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 import static ecommerce.shared.event.ECommerceEventType.PRODUCT_ADDED;
 import static ecommerce.shared.event.ECommerceEventType.PRODUCT_DELETED;
 
+@ApplicationScoped
 public class CatalogService {
 
-    private static final AtomicInteger idGenerator = new AtomicInteger(0);
+    private static final AtomicLong idGenerator = new AtomicLong(0L);
 
     private final Catalog catalog = new Catalog();
 
-    private final EventService eventService;
+    private final EventProducerService producerService;
 
-    public CatalogService(EventService eventService) {
+    public CatalogService(EventProducerService producerService) {
 
-        this.eventService = eventService;
+        this.producerService = producerService;
     }
 
-    public void delete(Integer productId) {
+    public void delete(Long productId) {
 
         catalog.delete(productId);
 
-        eventService.fire(PRODUCT_DELETED, Parameter.by("productId", productId));
+        producerService.fireProductDeleted(productId);
 
     }
 
-    public Optional<Product> getProduct(Integer productId) {
+    public Optional<Product> getProduct(Long productId) {
 
         return catalog.get(productId);
     }
@@ -45,7 +48,7 @@ public class CatalogService {
         Product product = new Product(idGenerator.getAndAdd(1), productName, unitPrice);
         catalog.add(product);
 
-        eventService.fire(PRODUCT_ADDED, Parameter.by("product", product.toString()));
+        producerService.fireProductAdded(product.getId().longValue(), productName);
 
         return product;
     }

@@ -8,17 +8,17 @@ import java.util.Optional;
 
 public class Catalog {
 
-    private Map<Integer, Product> products = new HashMap<>();
+    private Map<Long, Product> products = new HashMap<>();
 
     public void add(Product product) {
         products.put(product.getId(), product);
     }
 
-    public Optional<Product> get(Integer id) {
+    public Optional<Product> get(Long id) {
         return Optional.ofNullable(products.get(id));
     }
 
-    public void delete(Integer id) {
+    public void delete(Long id) {
         products.remove(id);
     }
 }

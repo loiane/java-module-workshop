@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Order {
 
-    private Integer buyerId;
+    private Long buyerId;
 
-    private Integer basketId;
+    private Long basketId;
 
     private List<OrderItem> orderItems;
 
@@ -15,20 +15,20 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public void setBuyerId(Integer buyerId) {
+    public void setBuyerId(Long buyerId) {
 
         this.buyerId = buyerId;
     }
 
-    public void setBasketId(Integer basketId) {
+    public void setBasketId(Long basketId) {
         this.basketId = basketId;
     }
 
-    public Integer getBuyerId() {
+    public Long getBuyerId() {
         return buyerId;
     }
 
-    public Integer getBasketId() {
+    public Long getBasketId() {
         return basketId;
     }
 

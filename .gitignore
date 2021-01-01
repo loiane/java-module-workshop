@@ -3,3 +3,10 @@
 classpath
 modules
 jeventbus
+.idea
+out
+**/*.iml
+.java-version
+jeventbus_modules/
+modules_bck
+**/mvn_lib

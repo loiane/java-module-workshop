@@ -6,53 +6,46 @@ import jeventbus.service.EventService;
 import jeventbus.shared.EventListener;
 import jeventbus.shared.EventSource;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 import static ecommerce.shared.event.ECommerceEventType.STOCK_ADDED;
 import static ecommerce.shared.event.ECommerceEventType.STOCK_CHECKOUTED;
 import static jeventbus.shared.Parameter.by;
 
+@ApplicationScoped
 public class StockService implements EventListener {
 
     private final Stock stock = new Stock();
 
-    private final EventService eventService;
+    @Inject
+    private final EventProducerService eventService;
 
-    public StockService(EventService eventService) {
+    public StockService(EventProducerService eventService) {
 
         this.eventService = eventService;
     }
 
-    public void add(Integer productId, Integer count) {
+    public void add(Long productId, Integer count) {
         stock.add(productId, count);
 
-        eventService.fire(STOCK_ADDED, by("productId", productId), by("count",count));
+        eventService.fireStockAdded(productId, count);
     }
 
-    public Integer getCount(Integer productId) {
+    public Integer getCount(Long productId) {
         return stock.getCount(productId);
     }
 
-    public void checkout(ItemWithCount item) {
-        Integer productId = item.getProductId();
-        Integer countToCheckout = item.getCount();
+    public void checkout(Long productId, Integer countToCheckout) {
         Integer currentCount = stock.checkout(productId, countToCheckout);
 
-        eventService.fire(STOCK_CHECKOUTED,
-                          by("productId", productId),
-                          by("countToCheckout", countToCheckout),
-                          by("countAfterCheckout", currentCount));
+        eventService.fireStockCheckouted(productId, countToCheckout, currentCount);
 
     }
 
-    public void checkout(List<ItemWithCount> items) {
-        for (ItemWithCount item : items) {
-            checkout(item);
-        }
-    }
-
-    private void onOrder(EventSource source) {
+    public void onOrder(EventSource source) {
         List<ItemWithCount> items = (List<ItemWithCount>) source.get("items");
-        checkout(items);
+        items.stream().forEach(i->checkout(i.getProductId(), i.getCount()));
     }
 }

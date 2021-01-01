@@ -5,18 +5,20 @@ YELLOW='\033[1;33m'
 PURPLE='\033[1;35m'
 NC='\033[0m' # No Color
 
-logging=('logger-service' 'logging' 'automatic' '')
-feedlogger=('feed-logger' 'logging' 'automatic' 'logger.service')
-consolelogger=('console-logger' 'logging' 'automatic' 'logger.service')
-jeventbus=('jeventbus' '.' 'named' '')
-shared=('ecommerce-shared' 'ecommerce-platform' 'automatic' 'jeventbus')
-basket=('basket-service' 'ecommerce-platform' 'automatic' 'jeventbus,ecommerce.shared')
-stock=('stock-service' 'ecommerce-platform' 'automatic' 'jeventbus,ecommerce.shared')
-catalog=('catalog-service' 'ecommerce-platform' 'automatic' 'jeventbus,ecommerce.shared')
-order=('order-service' 'ecommerce-platform' 'automatic' 'jeventbus,ecommerce.shared' )
-api=('ecommerce-api' 'ecommerce-platform' 'automatic' 'jeventbus,logger.service,feed.logger,console.logger,ecommerce.shared,basket.service,stock.service,catalog.service,order.service')
+JEVENTBUS_PATH='/Users/tanerdiler/Projects/Personal/jeventbus'
 
-modules=(logging feedlogger consolelogger jeventbus shared basket stock catalog order api)
+logger=('logger-service' 'logging' 'named' '')
+feedlogger=('feed-logger' 'logging' 'named' 'logger.service')
+consolelogger=('console-logger' 'logging' 'named' 'logger.service')
+shared=('ecommerce-shared' 'ecommerce-platform' 'named' 'jeventbus.core')
+basket=('basket-service' 'ecommerce-platform' 'named' 'jeventbus.core,ecommerce.shared')
+stock=('stock-service' 'ecommerce-platform' 'named' 'jeventbus.core,ecommerce.shared')
+catalog=('catalog-service' 'ecommerce-platform' 'named' 'jeventbus.core,ecommerce.shared')
+order=('order-service' 'ecommerce-platform' 'named' 'jeventbus.core,ecommerce.shared' )
+logging=('logging-service' 'ecommerce-platform' 'named' 'jeventbus.core,ecommerce.shared,logger.service' )
+api=('ecommerce-api' 'ecommerce-platform' 'named' 'jeventbus.core,logger.service,feed.logger,console.logger,ecommerce.shared,basket.service,stock.service,catalog.service,order.service')
+
+modules=(logger feedlogger consolelogger shared basket stock catalog order logging api)
 
 recreateFolder() {
     folder="$1"
@@ -29,7 +31,24 @@ recreateFolder() {
 
 recreateFolder "out"
 recreateFolder "lib"
-recreateFolder "modules"
+#recreateFolder "modules"
+
+buildJeventbusThenCopy() {
+  CURRENT_PATH=`pwd`
+  echo -e "${YELLOW}CURRENT_PATH :: $CURRENT_PATH ${NC}"
+  cd $JEVENTBUS_PATH && sh $JEVENTBUS_PATH/build.sh && cp $JEVENTBUS_PATH/modules/* $CURRENT_PATH/modules
+  cd $CURRENT_PATH
+}
+
+buildJeventbusThenCopy
+rm modules/jackson-annotations-2.10.3.jar
+rm modules/jackson-core-2.10.3.jar
+rm modules/jackson-databind-2.10.3.jar
+rm modules/jackson-datatype-jdk8-2.10.3.jar
+rm modules/jackson-datatype-jsr310-2.10.3.jar
+rm modules/slf4j-api-1.7.25.jar
+rm modules/jakarta.activation-1.2.1.jar
+rm modules/log4j-slf4j-impl-2.13.1.jar
 
 compile() {
     moduleName="$1"

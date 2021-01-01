@@ -4,24 +4,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BasketItem {
 
-    private final Integer productId;
+    private final Long productId;
     private final Double unitPrice;
     private final AtomicInteger count = new AtomicInteger(0);
 
-    public BasketItem(Integer productId, Double unitPrice) {
+    public BasketItem(Long productId, Double unitPrice) {
 
         this.productId = productId;
         this.unitPrice = unitPrice;
     }
 
-    public BasketItem(Integer productId, Double unitPrice, Integer count) {
+    public BasketItem(Long productId, Double unitPrice, Integer count) {
 
         this.productId = productId;
         this.unitPrice = unitPrice;
         this.count.set(count);
     }
 
-    public Integer getProductId() {
+    public Long getProductId() {
 
         return productId;
     }

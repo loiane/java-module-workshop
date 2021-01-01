@@ -4,17 +4,21 @@ import static java.lang.String.format;
 
 public  class ItemWithCount {
 
-    private final Integer productId;
-    private final Double unitPrice;
-    private final Integer count;
+    private Long productId;
+    private Double unitPrice;
+    private Integer count;
 
-    public ItemWithCount(Integer productId, Double unitPrice, Integer count) {
+    public ItemWithCount(){
+
+    }
+
+    public ItemWithCount(Long productId, Double unitPrice, Integer count) {
         this.productId = productId;
         this.unitPrice = unitPrice;
         this.count = count;
     }
 
-    public Integer getProductId() {
+    public Long getProductId() {
         return productId;
     }
 

@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>jugistanbul</groupId>
+        <groupId>ecommerce</groupId>
         <artifactId>ecommerce-platform</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -15,37 +15,37 @@
             <version>4.8.2</version>
         </dependency>
         <dependency>
-            <groupId>jugistanbul</groupId>
+            <groupId>ecommerce</groupId>
             <artifactId>basket-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>jugistanbul</groupId>
+            <groupId>ecommerce</groupId>
             <artifactId>catalog-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>jugistanbul</groupId>
+            <groupId>ecommerce</groupId>
             <artifactId>order-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>jugistanbul</groupId>
+            <groupId>ecommerce</groupId>
             <artifactId>stock-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>jugistanbul</groupId>
+            <groupId>ecommerce</groupId>
             <artifactId>logger-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>jugistanbul</groupId>
+            <groupId>ecommerce</groupId>
             <artifactId>stock-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

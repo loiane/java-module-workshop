@@ -10,30 +10,30 @@ import static java.util.Objects.nonNull;
 
 public class Basket {
 
-    private final Integer id;
-    private final Integer buyerId;
-    private Map<Integer, BasketItem> items = new HashMap<>();
+    private final Long id;
+    private final Long buyerId;
+    private Map<Long, BasketItem> items = new HashMap<>();
 
-    public Basket(Integer id, Integer buyerId) {
+    public Basket(Long id, Long buyerId) {
         this.id = id;
         this.buyerId = buyerId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getBuyerId() {
+    public Long getBuyerId() {
         return buyerId;
     }
 
-    public Map<Integer, BasketItem> getItems() {
+    public Map<Long, BasketItem> getItems() {
         return Collections.unmodifiableMap(items);
     }
 
     public Integer add(BasketItem item) {
 
-        Integer productId = item.getProductId();
+        Long productId = item.getProductId();
         Double unitPrice = item.getUnitPrice();
 
         BasketItem itemInBasket = items.getOrDefault(productId, new BasketItem(productId, unitPrice));
@@ -45,7 +45,7 @@ public class Basket {
         return latestCount;
     }
 
-    public Integer dec(Integer productId, Integer countToDec) {
+    public Integer dec(Long productId, Integer countToDec) {
 
         Integer latestCount = 0;
         BasketItem itemInBasket = items.get(productId);
@@ -57,7 +57,7 @@ public class Basket {
         return latestCount;
     }
 
-    public void remove(Integer productId) {
+    public void remove(Long productId) {
 
         items.remove(productId);
     }

@@ -3,55 +3,55 @@ package ecommerce.basket.service;
 import ecommerce.basket.core.Basket;
 import ecommerce.basket.core.BasketItem;
 import ecommerce.basket.core.Baskets;
-import jeventbus.service.EventService;
 import jeventbus.shared.EventListener;
 import jeventbus.shared.EventSource;
-import jeventbus.shared.Parameter;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Optional;
 
-import static ecommerce.shared.event.ECommerceEventType.*;
+import static java.lang.String.format;
 
+@ApplicationScoped
 public class BasketService implements EventListener {
 
     private final Baskets baskets = new Baskets();
 
-    private final EventService eventService;
+    private final EventProducerService eventProducerService;
 
-    public BasketService(EventService eventService) {
+    @Inject
+    public BasketService(EventProducerService eventProducerService) {
 
-        this.eventService = eventService;
+        this.eventProducerService = eventProducerService;
     }
 
-    public Optional<Basket> get(Integer buyerId) {
+    public Optional<Basket> get(Long buyerId) {
 
         return baskets.get(buyerId);
     }
 
-    public Basket create(Integer buyerId) {
+    public Basket create(Long buyerId) {
 
-        Basket basket = baskets.create(buyerId);
+        Basket basket = baskets.getOrCreate(buyerId);
 
-        eventService.fire(BASKET_CREATED,
-                          Parameter.by("buyerId", buyerId));
+        eventProducerService.fireBasketCreated(buyerId, basket.getId());
 
-        System.out.println(String.format("BASKET CREATED : {\"buyerId\":%d}",
-                                         buyerId));
         return basket;
     }
 
-    public void clear(Integer buyerId) {
+    public void clear(Long buyerId) {
 
-        Basket clearedBasket = baskets.clear(buyerId);
-
-        eventService.fire(BASKET_CLEARED,
-                          Parameter.by("buyerId", buyerId),
-                          Parameter.by("basketId", clearedBasket.getId()),
-                          Parameter.by("totalPrice", clearedBasket.getTotalPrice()));
+        baskets.get(buyerId)
+                .ifPresentOrElse(
+                        b-> {
+                                baskets.clear(buyerId);
+                                eventProducerService.fireBasketCleared(buyerId, b.getId(), b.getTotalPrice());
+                            },
+                        ()->System.out.println(format("Basket not found for buyer{%d}",buyerId)));
 
     }
 
-    public Integer addItem(Integer buyerId, Integer productId, Double unitPrice, Integer count) {
+    public Integer addItem(Long buyerId, Long productId, Double unitPrice, Integer count) {
 
         BasketItem item = new BasketItem(productId, unitPrice, count);
 
@@ -59,27 +59,18 @@ public class BasketService implements EventListener {
 
         Integer latestCount = basket.add(item);
 
-        eventService.fire(BASKET_ITEM_ADDED,
-                          Parameter.by("buyerId", buyerId),
-                          Parameter.by("basketId", basket.getId()),
-                          Parameter.by("unitPrice", unitPrice),
-                          Parameter.by("count", latestCount),
-                          Parameter.by("productId", basket.getId()));
+        eventProducerService.fireItemAddedToBasket(buyerId.longValue(), basket.getId().longValue(), unitPrice, latestCount, productId.longValue());
 
         return latestCount;
     }
 
-    public Integer decCountOfItem(Integer buyerId, Integer productId, Integer count) {
+    public Integer decCountOfItem(Long buyerId, Long productId, Integer count) {
         Optional<Basket> basket = baskets.get(buyerId);
 
         if (basket.isPresent()) {
             Integer latestCount = basket.get().dec(productId, count);
 
-            eventService.fire(BASKET_ITEM_COUNT_DECREASED,
-                              Parameter.by("buyerId", buyerId),
-                              Parameter.by("productId", productId),
-                              Parameter.by("count", count),
-                              Parameter.by("latestCount",latestCount));
+            eventProducerService.fireItemDecreasedToBasket(buyerId, basket.get().getId(), productId, count, latestCount);
 
             return latestCount;
 
@@ -90,19 +81,17 @@ public class BasketService implements EventListener {
 
     }
 
-    public void removeItem(Integer buyerId, Integer productId) {
+    public void removeItem(Long buyerId, Long productId) {
 
         Optional<Basket> basket = baskets.get(buyerId);
 
         basket.ifPresent(b -> b.remove(productId));
 
-        eventService.fire(BASKET_ITEM_REMOVED,
-                          Parameter.by("buyerId", buyerId),
-                          Parameter.by("productId", productId));
+        eventProducerService.fireItemRemoved(buyerId, basket.get().getId(), productId);
     }
 
-    private void onOrder(EventSource source) {
-        Integer buyerId = (Integer) source.get("buyerId");
+    public void onOrder(EventSource source) {
+        Long buyerId = (Long) source.get("buyerId");
         clear(buyerId);
     }
 }
