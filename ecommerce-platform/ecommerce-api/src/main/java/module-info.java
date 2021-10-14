@@ -4,6 +4,8 @@ module ecommerce.api {
     requires ecommerce.shared;
     requires order.service;
     requires stock.service;
-    requires jeventbus;
-    opens ecommerce.api to jeventbus;
+    requires jeventbus.core;
+    requires logger.service;
+    opens ecommerce.api to jeventbus.core;
+    uses logger.service.LoggerService;
 }
