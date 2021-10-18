@@ -2,7 +2,7 @@
 
 As you know, Java 11 had joined to our life with huge changes. One of those changes was Java Platform Module System. You can see the history of Jigsaw project how became a part of Java 11 from https://openjdk.java.net/projects/jigsaw/.
 
-The main goal of this workshop is to get hands-on experience. Workshop has 5 missions. Each mission has a challenge to achieve and comming with the solution of previous mission. Each mission is located in the branch named as mission-N. You need to follow the instructions located in main project folder. 
+The main goal of this workshop is to get hands-on experience on Java Modules. We will modularize a monolith application by using Java Modules. Workshop has 5 missions. Each mission has some goals and comming with the solution of previous mission. Each mission is located in the branch named as mission-N. You need to follow the instructions located in the main project folder. 
 
 ## MISSION-1
 
